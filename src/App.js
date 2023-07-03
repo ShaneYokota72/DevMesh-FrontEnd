@@ -9,6 +9,12 @@ import Lobby from './Components/Lobby';
 import About from './Components/About';
 import React from 'react';
 
+import Land from './Pages/Land';
+import Navbar from './Pages/Navbar';
+import Aboutus from './Pages/Aboutus';
+import Faq from './Pages/Faq';
+import Contact from './Pages/Contact';
+
 import { Routes, Route } from 'react-router-dom';
 
 function Landingpage(){
@@ -23,6 +29,18 @@ function Landingpage(){
   )
 }
 
+function Landing(){
+  return(
+    <div>
+      <Navbar></Navbar>
+      <Land></Land>
+      <Aboutus></Aboutus>
+      <Faq></Faq>
+      <Contact></Contact>
+    </div>
+  )
+}
+
 export const UserContext = React.createContext({});
 
 function App() {
@@ -32,10 +50,11 @@ function App() {
     <>
       <UserContext.Provider value={{username, setusername, roomcreater, setroomcreater}}>
         <Routes>
-          <Route path="/" element={<Landingpage />} />
+          <Route path="/archive" element={<Landingpage />} />
           <Route path='/lobby' element={<Lobby/>}></Route>
           <Route path='/room/:roomid' element={<ColabIDE/>}></Route>
           <Route path='/about' element={<About></About>}></Route>
+          <Route path='/' element={<Landing></Landing>}></Route>
         </Routes>
       </UserContext.Provider>
       

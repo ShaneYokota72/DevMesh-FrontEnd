@@ -42,6 +42,266 @@
   scroll-behavior: smooth;
 }
 
+/* Variables */
+:root {
+  --light-primary-text: #020303;
+  --dark-primary-text: #ffffff;
+  --light-primary-button: #d78b05;
+  --light-secondary-button: #e9eceb;
+  --light-primary-background: #f1f3f3;
+  --light-secondary-background: #fbf6ea;
+  --dark-primary-background: #212121;
+  --light-primary-accent: #131310;
+  --light-accent-text: #ffffff;
+}
+
+/* Landing Page css */
+.landing{
+  height: 70vh;
+  width: 80vw;
+  padding: 10vh 10vw;
+  background-color: var(--light-primary-background);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+.landing img{
+  width: 50px;
+  height: auto;
+}
+.landing h1{
+  font-family:  monospace;
+  font-weight: bolder;
+  font-size: 1.1vw;
+  background: linear-gradient(to right, var(--light-primary-text) 0%, var(--light-primary-button) 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color: transparent;
+  visibility: hidden; /* Hide the text initially */
+  animation: slide-in 1.5s ease-in-out forwards;
+}
+@keyframes slide-in {
+  0% {
+    transform: translateX(100%); 
+    visibility: visible;
+  }
+  100% {
+    transform: translateX(0); 
+    visibility: visible;
+  }
+}
+.redirect{
+  display: flex;
+  gap: 3vw;
+}
+.redirectlink{
+  text-decoration: none;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 25px;
+  color: var(--light-primary-text);
+}
+.redirectlink::after{
+  content: "";
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: var(--light-primary-text);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.redirectlink:hover::after {
+  transform: scaleX(1);
+}
+
+/* navbar css */
+.navbar{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2.5vh 10vw;
+  background-color: var(--light-primary-background);
+}
+.navbar img{
+  max-height: 5vh;
+  width: auto;
+}
+.navbar img:hover{
+  cursor: pointer;
+  transform: scale(1.05);
+  transition: transform 0.7s ease;
+}
+.account{
+  width: 15vw;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+/* aboutus css */
+.about{
+  padding: 5vh 10vw;
+  height: 90vh;
+  width: 80vw;
+  background-color: var(--light-secondary-background);
+}
+.about h2{
+  font-family: 'Monoton', cursive;
+  font-size: 3.5vw;
+  font-weight: 400;
+  color: var(--light-primary-button);
+}
+.aboutuscards{
+  display: flex;
+  justify-content: space-between;
+  align-items: top;
+}
+.about p{
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 1.6vw;
+  color: var(--light-primary-text);
+  width: 80%;
+  line-height: 1.5em;
+}
+
+/* Card css */
+.card{
+  width: 20vw;
+  background-color: var(--light-secondary-button);
+  border-radius: 20px;
+  padding: 2vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+.card img{
+  width: 25%;
+  height: auto;
+  position: relative;
+  z-index: 2;
+}
+.card h3{
+  font-size: 1.8vw;
+  margin-top: 1vh;
+  position: relative;
+  z-index: 2;
+}
+.card p{
+  font-size: 1vw;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+ 
+.card::after {
+  content: "";
+  position: absolute;
+  bottom: 0; /* Position at the bottom */
+  left: 0;
+  width: 100%;
+  height: 0; /* Start with height as 0 */
+  background: linear-gradient(180deg, #a0a0a0 -22% -22%, #e89905de 123% 123%);
+  border-radius: 20px;
+  transition: height 1s ease;
+}
+
+.card:hover::after {
+  height: 100%;
+}
+
+/* faq css */
+.faq{
+  padding: 5vh 10vw 10vh 10vw;
+  width: 80vw;
+  background-color: var(--light-primary-background);
+}
+
+.faq h2{
+  font-family: 'Monoton', cursive;
+  font-size: 3.5vw;
+  font-weight: 400;
+  color: var(--light-primary-button);
+}
+
+.faqlist{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1vh;
+  justify-content: center;
+}
+
+.individualfaq{
+  width: 50vw;
+  padding: 2vw;
+  border: 1px solid black;
+  border-radius: 1vw;
+  background-color: var(--light-secondary-background);
+}
+.individualfaq p{
+  margin-bottom: 0;
+  font-weight: 500;
+  font-family: "Space Grotesk", "Space Grotesk Placeholder", sans-serif;
+  color: black;
+  font-size: 1.15vw;
+  letter-spacing: -0.025em;
+  line-height: 1.5;
+}
+
+.faq_question{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.faq_question h5{
+  margin: 0;
+  font-weight: 700;
+  font-family: "Space Grotesk", "Space Grotesk Placeholder", sans-serif;
+  color: black;
+  font-size: 1.25vw;
+  letter-spacing: -0.025em;
+  line-height: 1.5;
+}
+/* Contact css */
+.contact{
+  margin: 5vh 10vw;
+  width: 80vw;
+  padding: 2vh 3vw;
+  background-color: var(--light-primary-accent);
+}
+.contact h2{
+  font-family: 'Monoton', cursive;
+  font-size: 3.5vw;
+  font-weight: 400;
+  color: var(--light-accent-text);
+}
+.contact h5{
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 1vw;
+  color: var(--light-accent-text);
+}
+.contactinline{
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  gap: 5px;
+}
+.contactinline a{
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 1vw;
+  color: var(--light-accent-text);
+}
+.contactinline a:hover{
+  background: var(--light-primary-button);
+}
+
+
 /* top page css */
 .toppage{
   background-color: #333333;
