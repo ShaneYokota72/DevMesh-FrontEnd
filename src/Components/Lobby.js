@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef, useContext} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import { Link , Navigate} from 'react-router-dom';
 import SearchResult from './SearchResult';
 import { UserContext } from '../App';
@@ -179,11 +179,9 @@ export default function Lobby() {
                 <h1 className='openroomtitle'>Open Rooms</h1>
                 <div className='search'>
                     <input type='text' placeholder='room description' className='searchbar' value={keyword} onChange={ev=>setkeyword(ev.target.value)}/>
-                    {/* <a className='searchbutton' onClick={refreshsearchres(keyword)}> */}
-                        <svg className='searchbutton' onClick={refreshsearchres} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <svg className='searchbutton' onClick={refreshsearchres} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                        </svg>
-                    {/* </a> */}
+                    </svg>
                 </div>
                 <div className='searchresult'>
                     {searchres?.map((res, index) => <SearchResult key={index} roomid={res._id} username={res.creater} tags={res.tag} desc={res.desc}></SearchResult>)}
