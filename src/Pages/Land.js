@@ -1,12 +1,19 @@
-import React, {useState, useEffect} from 'react'
+import React from 'react'
 import mesh from '../Images/IconMesh.png'
 import { Link } from 'react-router-dom'
 
 export default function Land() {
-    
+    function scrolltoabout(){
+        const desiredHeight = window.innerHeight * 1;
+
+        window.scrollTo({
+        top: desiredHeight,
+        behavior: 'smooth'
+        });
+    }
     return (
         <div className='landing'>
-            <img src={mesh}></img>
+            <img src={mesh} alt="mash logo"></img>
             <h1>
             __/\\\\\\\\\\\\_____________________________________/\\\\____________/\\\\_________________________________/\\\_________        
     &nbsp;_\/\\\////////\\\__________________________________\/\\\\\\________/\\\\\\________________________________\/\\\_________       
@@ -20,7 +27,7 @@ export default function Land() {
     
             </h1>
             <div className='redirect'>
-                <Link to='/lobby' className='redirectlink'>Learn More</Link>
+                <Link to='/' className='redirectlink' onClick={scrolltoabout}>Learn More</Link>
                 <Link to='/lobby'className='redirectlink'>Try It Out</Link>
             </div>
         </div>

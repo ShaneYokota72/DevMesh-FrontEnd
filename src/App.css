@@ -43,16 +43,25 @@
 }
 
 /* Variables */
-:root {
-  --light-primary-text: #020303;
-  --dark-primary-text: #ffffff;
-  --light-primary-button: #d78b05;
-  --light-secondary-button: #e9eceb;
-  --light-primary-background: #f1f3f3;
-  --light-secondary-background: #fbf6ea;
-  --dark-primary-background: #212121;
-  --light-primary-accent: #131310;
-  --light-accent-text: #ffffff;
+.app.light{
+  --primary-text: #020303;
+  --primary-button: #d78b05;
+  --secondary-button: #e9eceb;
+  --primary-background: #f1f3f3;
+  --secondary-background: #fbf6ea;
+  --primary-accent: #131310;
+  --accent-text: #ffffff;
+  --faqtext: #000000;
+}
+.app.dark{
+  --primary-text: #ffffff;
+  --primary-button: #d78b05;
+  --secondary-button: #e9eceb;
+  --primary-background: #333333;
+  --secondary-background: #212121;
+  --primary-accent: #212121;
+  --accent-text: #ffffff;
+  --faqtext: #ffffff;
 }
 
 /* Landing Page css */
@@ -60,7 +69,7 @@
   height: 70vh;
   width: 80vw;
   padding: 10vh 10vw;
-  background-color: var(--light-primary-background);
+  background-color: var(--primary-background);
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -74,7 +83,7 @@
   font-family:  monospace;
   font-weight: bolder;
   font-size: 1.1vw;
-  background: linear-gradient(to right, var(--light-primary-text) 0%, var(--light-primary-button) 100%);
+  background: linear-gradient(to right, var(--primary-text) 0%, var(--primary-button) 100%);
   -webkit-background-clip:text;
   -webkit-text-fill-color: transparent;
   visibility: hidden; /* Hide the text initially */
@@ -99,14 +108,14 @@
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
   font-size: 25px;
-  color: var(--light-primary-text);
+  color: var(--primary-text);
 }
 .redirectlink::after{
   content: "";
   display: block;
   width: 100%;
   height: 2px;
-  background-color: var(--light-primary-text);
+  background-color: var(--primary-text);
   transform: scaleX(0);
   transition: transform 0.3s ease;
 }
@@ -121,7 +130,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 2.5vh 10vw;
-  background-color: var(--light-primary-background);
+  background-color: var(--primary-background);
 }
 .navbar img{
   max-height: 5vh;
@@ -133,7 +142,7 @@
   transition: transform 0.7s ease;
 }
 .account{
-  width: 15vw;
+  width: 20vw;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -141,15 +150,15 @@
 /* aboutus css */
 .about{
   padding: 5vh 10vw;
-  height: 90vh;
+  height: 80vh;
   width: 80vw;
-  background-color: var(--light-secondary-background);
+  background-color: var(--secondary-background);
 }
 .about h2{
   font-family: 'Monoton', cursive;
   font-size: 3.5vw;
   font-weight: 400;
-  color: var(--light-primary-button);
+  color: var(--primary-button);
 }
 .aboutuscards{
   display: flex;
@@ -159,8 +168,8 @@
 .about p{
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
-  font-size: 1.6vw;
-  color: var(--light-primary-text);
+  font-size: 1.3vw;
+  color: var(--primary-text);
   width: 80%;
   line-height: 1.5em;
 }
@@ -168,7 +177,6 @@
 /* Card css */
 .card{
   width: 20vw;
-  background-color: var(--light-secondary-button);
   border-radius: 20px;
   padding: 2vw;
   display: flex;
@@ -177,6 +185,8 @@
   align-items: center;
   position: relative;
   overflow: hidden;
+  border: 1px solid var(--primary-background);
+  box-shadow: 0 0 10px rgba(0,0,0,0.25);
 }
 .card img{
   width: 25%;
@@ -184,11 +194,15 @@
   position: relative;
   z-index: 2;
 }
+#invertimg{
+  filter: invert(1);
+}
 .card h3{
   font-size: 1.8vw;
   margin-top: 1vh;
   position: relative;
   z-index: 2;
+  color: var(--primary-text);
 }
 .card p{
   font-size: 1vw;
@@ -206,7 +220,7 @@
   height: 0; /* Start with height as 0 */
   background: linear-gradient(180deg, #a0a0a0 -22% -22%, #e89905de 123% 123%);
   border-radius: 20px;
-  transition: height 1s ease;
+  transition: height 0.5s ease;
 }
 
 .card:hover::after {
@@ -217,14 +231,14 @@
 .faq{
   padding: 5vh 10vw 10vh 10vw;
   width: 80vw;
-  background-color: var(--light-primary-background);
+  background-color: var(--primary-background);
 }
 
 .faq h2{
   font-family: 'Monoton', cursive;
   font-size: 3.5vw;
   font-weight: 400;
-  color: var(--light-primary-button);
+  color: var(--primary-button);
 }
 
 .faqlist{
@@ -240,13 +254,14 @@
   padding: 2vw;
   border: 1px solid black;
   border-radius: 1vw;
-  background-color: var(--light-secondary-background);
+  background-color: var(--secondary-background);
 }
 .individualfaq p{
   margin-bottom: 0;
   font-weight: 500;
   font-family: "Space Grotesk", "Space Grotesk Placeholder", sans-serif;
-  color: black;
+  /* color: black; */
+  color: var(--faqtext);
   font-size: 1.15vw;
   letter-spacing: -0.025em;
   line-height: 1.5;
@@ -261,29 +276,36 @@
   margin: 0;
   font-weight: 700;
   font-family: "Space Grotesk", "Space Grotesk Placeholder", sans-serif;
-  color: black;
+  /* color: black; */
+  color: var(--faqtext);
   font-size: 1.25vw;
   letter-spacing: -0.025em;
   line-height: 1.5;
 }
+.faq_question svg{
+  color: var(--faqtext);
+}
 /* Contact css */
 .contact{
   margin: 5vh 10vw;
-  width: 80vw;
+  width: 74vw;
   padding: 2vh 3vw;
-  background-color: var(--light-primary-accent);
+  background-color: var(--primary-accent);
+  border-radius: 6px;
 }
 .contact h2{
   font-family: 'Monoton', cursive;
   font-size: 3.5vw;
   font-weight: 400;
-  color: var(--light-accent-text);
+  margin: 2vh auto 2vh 0;
+  color: var(--accent-text);
 }
 .contact h5{
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
   font-size: 1vw;
-  color: var(--light-accent-text);
+  margin: 1vh;
+  color: var(--accent-text);
 }
 .contactinline{
   display: flex;
@@ -295,11 +317,155 @@
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
   font-size: 1vw;
-  color: var(--light-accent-text);
+  color: var(--accent-text);
 }
 .contactinline a:hover{
-  background: var(--light-primary-button);
+  background: var(--primary-button);
 }
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+.react-toggle {
+  touch-action: pan-x;
+
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  background-color: transparent;
+  border: 0;
+  padding: 0;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.react-toggle-screenreader-only {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+.react-toggle--disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  -webkit-transition: opacity 0.25s;
+  transition: opacity 0.25s;
+}
+
+.react-toggle-track {
+  width: 50px;
+  height: 24px;
+  padding: 0;
+  border-radius: 30px;
+  background-color: #4D4D4D;
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+
+.react-toggle:hover:not(.react-toggle--disabled) .react-toggle-track {
+  background-color: #000000;
+}
+
+.react-toggle--checked .react-toggle-track {
+  background-color: #19AB27;
+}
+
+.react-toggle--checked:hover:not(.react-toggle--disabled) .react-toggle-track {
+  background-color: #128D15;
+}
+
+.react-toggle-track-check {
+  position: absolute;
+  width: 14px;
+  height: 10px;
+  top: 0px;
+  bottom: 0px;
+  margin-top: auto;
+  margin-bottom: auto;
+  line-height: 0.5;
+  left: 8px;
+  opacity: 0;
+  -webkit-transition: opacity 0.25s ease;
+  -moz-transition: opacity 0.25s ease;
+  transition: opacity 0.25s ease;
+}
+
+.react-toggle--checked .react-toggle-track-check {
+  opacity: 1;
+  -webkit-transition: opacity 0.25s ease;
+  -moz-transition: opacity 0.25s ease;
+  transition: opacity 0.25s ease;
+}
+
+.react-toggle-track-x {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  top: 0px;
+  bottom: 0px;
+  margin-top: auto;
+  margin-bottom: auto;
+  line-height: 0.5;
+  right: 10px;
+  opacity: 1;
+  -webkit-transition: opacity 0.25s ease;
+  -moz-transition: opacity 0.25s ease;
+  transition: opacity 0.25s ease;
+}
+
+.react-toggle--checked .react-toggle-track-x {
+  opacity: 0;
+}
+
+.react-toggle-thumb {
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 22px;
+  height: 22px;
+  border: 1px solid #4D4D4D;
+  border-radius: 50%;
+  background-color: #FAFAFA;
+
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+
+  -webkit-transition: all 0.25s ease;
+  -moz-transition: all 0.25s ease;
+  transition: all 0.25s ease;
+}
+
+.react-toggle--checked .react-toggle-thumb {
+  left: 27px;
+  border-color: #19AB27;
+}
+
+.react-toggle--focus .react-toggle-thumb {
+  -webkit-box-shadow: 0px 0px 3px 2px #0099E0;
+  -moz-box-shadow: 0px 0px 3px 2px #0099E0;
+  box-shadow: 0px 0px 2px 3px #0099E0;
+}
+
+.react-toggle:active:not(.react-toggle--disabled) .react-toggle-thumb {
+  -webkit-box-shadow: 0px 0px 5px 5px #0099E0;
+  -moz-box-shadow: 0px 0px 5px 5px #0099E0;
+  box-shadow: 0px 0px 5px 5px #0099E0;
+}
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 
 /* top page css */

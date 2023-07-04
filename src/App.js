@@ -46,9 +46,10 @@ export const UserContext = React.createContext({});
 function App() {
   const [username, setusername] = React.useState('');
   const [roomcreater, setroomcreater] = React.useState('');
+  const [theme, setTheme] = React.useState('light');
   return (
-    <>
-      <UserContext.Provider value={{username, setusername, roomcreater, setroomcreater}}>
+    <div className={`app ${theme}`}>
+      <UserContext.Provider value={{username, setusername, roomcreater, setroomcreater, theme, setTheme}}>
         <Routes>
           <Route path="/archive" element={<Landingpage />} />
           <Route path='/lobby' element={<Lobby/>}></Route>
@@ -57,8 +58,7 @@ function App() {
           <Route path='/' element={<Landing></Landing>}></Route>
         </Routes>
       </UserContext.Provider>
-      
-    </>
+    </div>
   );
 }
 
