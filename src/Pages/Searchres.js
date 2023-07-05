@@ -26,7 +26,7 @@ export default function Searchres() {
                     null
                 )}
             <div className='searchresf_row'>
-                <img src={codelogo}></img>    
+                <img src={codelogo} alt='codelogo'></img>    
                 <span>July 7th</span>
             </div> 
             <h3>Shane Yokota</h3>

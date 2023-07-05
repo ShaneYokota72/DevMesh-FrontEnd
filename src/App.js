@@ -69,6 +69,14 @@ function Loginpage(){
   )
 }
 
+function Rooompage(){
+  return(
+    <div>
+      <h1>Room</h1>
+    </div>
+  )
+}
+
 export const UserContext = React.createContext({});
 
 function App() {
@@ -82,12 +90,13 @@ function App() {
         <Routes>
           <Route path="/archive" element={<Landingpage />} />
           <Route path='/archivelobby' element={<Lobby/>}></Route>
-          <Route path='/room/:roomid' element={<ColabIDE/>}></Route>
+          <Route path='/archiveroom/:roomid' element={<ColabIDE/>}></Route>
           <Route path='/about' element={<About></About>}></Route>
           <Route path='/' element={<Landing></Landing>}></Route>
           <Route path='/lobby' element={<Lobbypage></Lobbypage>}></Route>
           <Route path='/login' element={<Loginpage></Loginpage>}></Route>
           <Route path='/signup' element={<Signuppage></Signuppage>}></Route>
+          <Route path='/room/:id' element={<Rooompage></Rooompage>}></Route>
         </Routes>
       </UserContext.Provider>
     </div>

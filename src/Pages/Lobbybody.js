@@ -1,11 +1,21 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState, useContext} from 'react'
 import Searchres from './Searchres';
-
+import { UserContext } from '../App';
+import { Navigate } from 'react-router-dom';
 
 export default function Lobbybody() {
     const [keyword, setkeyword] = useState('');
     const [searchres, setsearchres] = useState([]);
-
+    const [redirect_tologin, setredirect_tologin] = useState(false);
+    const {userinformation} = useContext(UserContext);
+    useEffect(()=>{
+        if(!userinformation.username){
+            setredirect_tologin(true);
+        }
+    }, [userinformation])
+    if(redirect_tologin){
+        return <Navigate to='/login'></Navigate>
+    }
     async function refreshsearchres(){
         console.log('refreshing', keyword);
         const responce = await fetch(`${process.env.REACT_APP_APIPORT}/search`, {
