@@ -1,17 +1,18 @@
 import React, {useState} from 'react'
 import codelogo from '../Images/code.svg'
 import { useHover } from "@uidotdev/usehooks";
+import { format } from 'date-fns'
+import { Navigate } from 'react-router-dom';
 
-export default function Searchres() {
+export default function Searchres(props) {
     const [ref, hovering] = useHover();
     const [redirect, setredirect] = useState(false);
-
+    const tags = (props.tag)?.split(',');
     function handleclick(){
         setredirect(true);
     }
     if(redirect){
-        // setroomcreater(props.username);
-        // return <Navigate to={`/room/${props.roomid}`}></Navigate>
+        return <Navigate to={`/room/${props.roomid}`}></Navigate>
     }
     return (
         <div className='searchres' onClick={handleclick} ref={ref}>
@@ -27,16 +28,14 @@ export default function Searchres() {
                 )}
             <div className='searchresf_row'>
                 <img src={codelogo} alt='codelogo'></img>    
-                <span>July 7th</span>
+                <span>{format(new Date(props.date), 'MMM do')}</span>
             </div> 
-            <h3>Shane Yokota</h3>
+            <h3>{props.creatername}</h3>
             <div className='tags'>
-                <span>Python</span>
-                <span>Java</span>
-                <span>C#</span>
+                {tags?.map((tag, index) => (<span key={index}>{tag}</span>))}
             </div>
             <p>
-            Description about the room. What kind of help you need, what kind of people you want to solve this problem with.
+            {props.desc}
             </p>
         </div>
     )

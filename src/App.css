@@ -56,10 +56,12 @@
   --accent-text: #ffffff;
   --faqtext: #000000;
   --lobbybg: #F8F8F8;
+  --idebg: #E4E2E2;
   --searchbar: #E4E2E2;
   --searchresbg: rgba(215, 139, 5, 0.79);
   --tagbg: #D9D9D9;
   --formshadow: rgba(0, 0, 0, 0.25);
+  --ideborder: #ffffff;
 }
 .app.dark{
   --primary-text: #ffffff;
@@ -74,10 +76,12 @@
   --accent-text: #ffffff;
   --faqtext: #ffffff;
   --lobbybg: #333333;
+  --idebg: #333333;
   --searchbar: #BEBEBE;
   --searchresbg: #e9e9e9bf;
   --tagbg: #ED9A08;
   --formshadow: rgba(255, 255, 255, 0.25);
+  --ideborder: rgba(255, 255, 255, 0.4);
 }
 
 /* Landing Page css */
@@ -144,7 +148,6 @@
   transform: scaleX(0);
   transition: transform 0.3s ease;
 }
-
 .redirectlink:hover::after {
   transform: scaleX(1);
 }
@@ -157,7 +160,7 @@
   padding: 2.5vh 10vw;
   background-color: var(--primary-background);
 }
-#lobbynav{
+#lobbynav, #idenav{
   background-color: var(--primary-lobby-background);
 }
 .navbar img{
@@ -424,6 +427,7 @@
   padding: 2vw;
   background-color: var(--searchresbg);
   position: relative;
+  margin: 0 2vw;
 }
 .searchres h3{
   font-family: 'Space Grotesk', sans-serif;
@@ -490,7 +494,9 @@
   display: flex;
   flex-wrap: wrap;
   gap: 2vw;
-  justify-content: space-around;
+  width: 76vw;
+  margin: 0 auto;
+  justify-content: flex-start;
 }
 
 /* Login/Signup css */
@@ -654,6 +660,78 @@
   transform: scale(1.05);
   transition: transform 0.3s ease;
 }
+
+/* ide css */
+.ide{
+  display: flex;
+  height: 90vh;
+  width: 100vw;
+  background-color: var(--lobbybg);
+  overflow: hidden;
+}
+.ideleft{
+  width: 65%;
+  height: 90vh;
+  /* background-color: rgb(117, 144, 117); */
+}
+.ideright{
+  width: 35%;
+  height: 90vh;
+  /* background-color: rgb(129, 115, 117); */
+}
+.ideinfo{
+  display: flex;
+  background-color: var(--idebg);
+  border-radius: 10px;
+  border: 1px solid var(--ideborder);
+  justify-content: space-between;
+  align-items: center;
+  height: 5vh;
+}
+.roomidcopy{
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1vw;
+  margin: 0.5vw;
+  padding: 0.25vw 0.5vw;
+  background-color: var(--primary-lobby-background);
+}
+#programminglang{
+  width: 10vw;
+  background-color: var(--primary-lobby-background);
+  color: var(--primary-text);
+  margin: 0.5vw;
+  height: 3vh;
+  border-radius: 10px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+}
+.roomidtext{
+  text-decoration: none;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  margin: 0;
+  color: var(--primary-text);
+}
+#codeide{
+  border-radius: 14px !important;
+  overflow: hidden;
+  border: 0.5px solid var(--ideborder);
+}
+
+/* chat css */
+.chat{
+  height: 90vh;
+  width: calc(35vw-2px);
+  background-color: var(--idebg);
+  overflow: hidden;
+  border: 1px solid var(--ideborder);
+  border-radius: 10px;
+}
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 .react-toggle {
   touch-action: pan-x;

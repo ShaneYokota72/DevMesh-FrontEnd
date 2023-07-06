@@ -11,12 +11,14 @@ export default function Lobbynav() {
     const [joinform, setjoinform] = useState(false);
     const [newroomid, setnewroomid] = useState(''); 
     const [gotonewroom, setgotonewroom] = useState(false);
+    const [joinroom, setjoinroom] = useState(false);
 
     /* Form related variables */
     const [ispublic, setispublic] = useState(null);
     const [tags, settags] = useState('');
     const [desc, setdesc] = useState('');
     const [roomid, setroomid] = useState('');
+    /* * * * * * * * * * * * */
 
     async function logout(){
         const response = await fetch(`${process.env.REACT_APP_APIPORT}/logout`, {
@@ -53,10 +55,28 @@ export default function Lobbynav() {
         }
     }
 
-    async function joinroom(){
-
+    async function handlejoinroom(){
+        if(roomid === ''){
+            alert('Please fill paste the roomid');
+            return;
+        }
+        const response = await fetch(`${process.env.REACT_APP_APIPORT}/confirmroom`, {
+            method: 'POST',
+            body: JSON.stringify({roomid}),
+            credentials: 'include',
+            headers: {'Content-type':'application/json'},
+        })
+        if(response.status === 200){
+            setjoinroom(true);
+        } else {
+            setroomid('');
+            alert('The Room does not exist. Please Try Again.');
+        }
     }
 
+    if(joinroom){
+        return <Navigate to={`/room/${roomid}`}></Navigate>
+    }
     if(gotonewroom){
         return <Navigate to={`/room/${newroomid}`}></Navigate>
     }
@@ -139,7 +159,7 @@ export default function Lobbynav() {
                             <span>devmesh.vercel/app/ </span>
                             <input className='forminputtext' style={{width: "15vw", margin: "0"}} type='text' value={roomid} onChange={e => setroomid(e.target.value)} placeholder='roomid'></input>
                         </div>
-                        <button onClick={joinroom} style={{marginTop: "1vh"}}>Join Room</button>
+                        <button onClick={handlejoinroom} style={{marginTop: "1vh"}}>Join Room</button>
                     </div>
                 ) : (
                     null

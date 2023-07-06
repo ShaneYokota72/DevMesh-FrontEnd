@@ -18,6 +18,7 @@ import Faq from './Pages/Faq';
 import Contact from './Pages/Contact';
 import Signup from './Pages/Signup';
 import Login from './Pages/Login';
+import Ide from './Pages/Ide';
 
 /* For Lobby */
 import Lobbynav from './Pages/Lobbynav';
@@ -71,9 +72,7 @@ function Loginpage(){
 
 function Rooompage(){
   return(
-    <div>
-      <h1>Room</h1>
-    </div>
+    <Ide></Ide>
   )
 }
 
