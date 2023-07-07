@@ -1,13 +1,18 @@
-import React, {useContext, useState, useEffect} from 'react'
+import React, {useContext, useState, useEffect, useRef} from 'react'
 import { useParams } from 'react-router-dom'
 import devlogo from '../Images/DevLogo.png'
 import Toggle from 'react-toggle'
 import {UserContext} from '../App';
 import { Navigate } from 'react-router-dom'
+import { io } from 'socket.io-client';
+import Notification from './Notification.js';
 
 import CodeMirror from '@uiw/react-codemirror';
 import { vscodeDark } from '@uiw/codemirror-theme-vscode';
 import { loadLanguage, langNames } from '@uiw/codemirror-extensions-langs';
+
+import send from '../Images/send.svg'
+import Indmsg from './Indmsg';
 
 const code = [
     ["cpp", 'cout << "Hello World!" << endl;'],
@@ -39,14 +44,53 @@ export default function Ide() {
     const [redirect_tologin, setredirect_tologin] = useState(false);
     const {theme, setTheme, userinformation} = useContext(UserContext);
     const [backtolobby, setbacktolobby] = useState(false);
+    const [msg, setmsg] = useState('');
+    const buttonRef = useRef(null);
+    const socketRef = useRef(null);
+    const [roomchat, setroomchat] = useState([]);
+    const [userjoin, setuserjoin] = useState([]);
+    const [iscreater, setiscreater] = useState(false);
 
     const [content, setContent] = useState('');
     const [langname, setLangname] = useState('cpp');
+    
+    function userjoinfunc(name) {
+        setuserjoin((userjoin) => [...userjoin, name]);
+    } 
+
+    useEffect(()=>{
+        const socket = io(process.env.REACT_APP_SOCKETPORT);
+        socketRef.current = socket;
+
+        socket.emit("join-room", id, userinformation.displayname);
+
+        // receive change for IDE
+        socket.on("receive-changes", delta => {
+            setContent(delta);
+        })
+        // connection notification
+        socket.on('user-connected', (name)=>{
+            // console.log(name, 'connected');
+            userjoinfunc(name);
+        })
+        // disconnection notification
+        socket.on('user-disconnected', (name)=>{
+            console.log(name, 'disconnected');
+        })
+        // receive chat msg
+        socket.on('receive-message', (msg) => {
+            setroomchat(chat => [...chat, msg])
+        });
+
+        return () => {
+            socket.disconnect();
+        }
+    }, [id, userinformation.displayname])
 
     const onChange = React.useCallback((value, viewUpdate) => {
-        // console.log('value:', value);
         setContent(value);
-        // socketRef.current.emit("send-changes", value, roomid);
+        socketRef.current.emit("send-changes", value, id);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     async function retrieve(rid){
@@ -57,10 +101,14 @@ export default function Ide() {
         }
         if(response.ok){
             response.json().then(data => {
-                if(data === ''){
+                if(data.content === ''){
                     setContent(codemap.get(langname));
                 } else {
-                    setContent(data);
+                    setContent(data.content);
+                }
+
+                if(data.creater === userinformation._id){
+                    setiscreater(true);
                 }
             })
         }
@@ -86,9 +134,63 @@ export default function Ide() {
         }
     }
 
+    async function delroom(){
+        const response = await fetch(`${process.env.REACT_APP_APIPORT}/delroom/`+id, {
+            method: 'DELETE',
+            headers: {'Content-type':'application/json'},
+        })
+        if(response.ok){
+            setbacktolobby(true);
+        }
+    }
+
     function handleRedirect(){
         setredirect(true);
     }
+    function redirecttolobby(){
+        setbacktolobby(true);
+    }
+
+    async function sendmsg(){
+        if(msg === ''){
+            return;
+        }
+        const text = {
+            name: userinformation.displayname,
+            msg: msg,
+        }
+        socketRef.current.emit('send-message', text, id);
+        setroomchat([...roomchat, text]);
+        setmsg('');
+    }
+
+    const handleKeyPress = (e) => {
+        if (e.code === "Enter") {
+            sendmsg();
+        }
+    };
+
+    async function save(rid, cnt){
+        const responce = await fetch(`${process.env.REACT_APP_APIPORT}/save/`+rid, {
+            method: 'PUT',
+            body: JSON.stringify({roomid: rid, content:cnt}),
+            headers: {'Content-type':'application/json'},
+        })
+        return responce.status;
+    }
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            save(id, content)
+            .then((savesucc) => {
+                if(savesucc===404){
+                    alert("Error saving file - The room may not exist");
+                    setbacktolobby(true);
+                }
+            })
+        }, 5000);
+        return () => clearInterval(interval);
+    }, [content, id]);
 
     if(redirect){
         return <Navigate to='/'></Navigate>;
@@ -102,15 +204,23 @@ export default function Ide() {
 
     return (
         <>
+            <div className='notifsection'>
+                {
+                    userjoin.length > 0 ? (
+                        userjoin.map((name, index) => (<Notification name={name} key={index}></Notification>))
+                    ):(null)
+                }
+            </div>
             <nav className='navbar' id='idenav'>
                 <img src={devlogo} alt='DevMesh Logo' onClick={handleRedirect}></img>
-                <div className='account'>
+                <div className='lobbyacc'>
+                    <h5 className='welcomemsg'>{`Welcome ${userinformation.displayname}`}</h5>
                     <Toggle
                         onChange={handlethemechange}
                         icons={{ checked: "🌙", unchecked: "🔆" }}
                         aria-label="Dark mode toggle" />
-                    <h5 className='redirectlink' style={{fontSize:'20px'}}>Close</h5>
-                    <h5 className='redirectlink' style={{fontSize:'20px'}}>Leave</h5>
+                    {iscreater && <h5 className='redirectlink' style={{fontSize:'20px'}} onClick={delroom}>Close</h5>}
+                    <h5 className='redirectlink' style={{fontSize:'20px'}} onClick={redirecttolobby}>Leave</h5>
                 </div>
             </nav>
             <div className='ide'>
@@ -140,7 +250,13 @@ export default function Ide() {
                 </div>
                 <div className='ideright'>
                     <div className='chat'>
-
+                        <div className='message'>
+                            {roomchat.map( (content, index) => (<Indmsg key={index} msg={content.msg} name={content.name}></Indmsg>))}
+                        </div>
+                        <div className='messageinput'>
+                            <input type='text' placeholder='Type a message' onKeyDown={handleKeyPress} value={msg} onChange={e => setmsg(e.target.value)} className='messagebar'></input>
+                            <img src={send} alt='send' ref={buttonRef} className='sendbutton' onClick={sendmsg}></img>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -105,6 +105,7 @@
   font-size: 1.1vw;
   background: linear-gradient(to right, var(--primary-text) 0%, var(--primary-button) 100%);
   -webkit-background-clip:text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   visibility: hidden; /* Hide the text initially */
   animation: slide-in 1.5s ease-in-out forwards;
@@ -725,12 +726,115 @@
 /* chat css */
 .chat{
   height: 90vh;
-  width: calc(35vw-2px);
+  width: calc(35vw - 2px);
   background-color: var(--idebg);
   overflow: hidden;
   border: 1px solid var(--ideborder);
   border-radius: 10px;
 }
+.message{
+  height: calc(85vh - 1.5vw);
+  width: calc(35vw - 2px);
+  overflow: scroll;
+}
+.messageinput{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 5vh;
+  background-color: var(--tagbg);
+  border-radius: 10px;
+  margin: 1vw;
+}
+.messageinput input{
+  background-color: transparent;
+  height: 3vh;
+  margin: 1vw;
+  font-size: 16px;
+  border: transparent;
+}
+.messageinput input:focus{
+  outline: none;
+}
+.messageinput img{
+  margin: 1vw;
+}
+.messageinput img:hover{
+  cursor: pointer;
+  transform: scale(1.15);
+  transition: transform 0.3s ease;
+}
+.msgblock{
+  display: flex;
+  flex-direction: column;
+  padding: 1vw 1vw 0 1vw;
+  overflow-wrap: break-word;
+}
+#mymsg{
+  align-items: flex-end;
+}
+#mymsgcontent{
+  text-align: right;
+}
+.msgblock span{
+  margin: 0.5vh 0.5vw;
+  color: var(--primary-text);
+}
+.msgcontent{
+  border-radius: 10px;
+  padding: 0.5vw;
+  width: 60%;
+  margin: 0;
+  background-color: var(--tagbg);
+}
+/* notification css */
+.notifsection{
+  position: absolute;
+  top: 10vh;
+  right: 0;
+}
+.notif {
+  /* position: absolute; */
+  right: 0;
+  width: 10vw;
+  background-color: var(--primary-button);
+  /* border: 1px solid #ccc; */
+  border-radius: 10px;
+  padding: 10px;
+  transition: transform 2s ease-out;
+  transform: translateX(100%);
+}
+.notif.show {
+  transform: translateX(0%);
+  transition: transform 1.5s ease-in;
+}
+.notif h5{
+  margin: 0;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 1vw;
+  color: #212121;
+}
+.time-bar {
+  height: 5px;
+  background-color: #aaa;
+  margin: 0 0 0 auto;
+  width: 100%;
+  text-align: right;
+  border-radius: 2.5px;
+  animation: timeLeft 5s linear;
+}
+
+@keyframes timeLeft {
+  0% {
+    width: 100%;
+  }
+  100% {
+    width: 0%;
+  }
+}
+
+
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 .react-toggle {
@@ -994,7 +1098,7 @@
 }
 
 /* Message section css */
-.message{
+/* .message{
   height: 100vh;
     overflow: hidden;
     display: flex;
@@ -1009,7 +1113,7 @@
   color: #ffffff;
   position: sticky;
   text-align: center;
-}
+} */
 .whale{
   object-fit: cover;
   object-position: center;

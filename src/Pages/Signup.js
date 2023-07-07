@@ -16,6 +16,8 @@ export default function Signup() {
     })
     if(response.ok){
       setredirect(true);
+    } else {
+      alert("Please Try Again");
     }
   }
 
