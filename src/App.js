@@ -1,12 +1,5 @@
+/* basic imports */
 import './App.css';
-import ColabIDE from './Components/ColabIDE';
-import TopPage from './Components/TopPage';
-import Explanation from './Components/Explanation';
-import Message from './Components/Message';
-import Getstarted from './Components/Getstarted';
-import Footer from './Components/Footer';
-import Lobby from './Components/Lobby';
-import About from './Components/About';
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
@@ -23,19 +16,6 @@ import Ide from './Pages/Ide';
 /* For Lobby */
 import Lobbynav from './Pages/Lobbynav';
 import Lobbybody from './Pages/Lobbybody';
-
-
-function Landingpage(){
-  return(
-    <div>
-      <TopPage></TopPage>
-      <Explanation></Explanation>
-      <Message></Message>
-      <Getstarted></Getstarted>
-      <Footer></Footer>
-    </div>
-  )
-}
 
 function Landing(){
   return(
@@ -87,10 +67,6 @@ function App() {
     <div className={`app ${theme}`}>
       <UserContext.Provider value={{username, setusername, roomcreater, setroomcreater, theme, setTheme, userinformation, setuserinformation}}>
         <Routes>
-          <Route path="/archive" element={<Landingpage />} />
-          <Route path='/archivelobby' element={<Lobby/>}></Route>
-          <Route path='/archiveroom/:roomid' element={<ColabIDE/>}></Route>
-          <Route path='/about' element={<About></About>}></Route>
           <Route path='/' element={<Landing></Landing>}></Route>
           <Route path='/lobby' element={<Lobbypage></Lobbypage>}></Route>
           <Route path='/login' element={<Loginpage></Loginpage>}></Route>

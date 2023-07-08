@@ -10,6 +10,7 @@ import Notification from './Notification.js';
 import CodeMirror from '@uiw/react-codemirror';
 import { vscodeDark } from '@uiw/codemirror-theme-vscode';
 import { loadLanguage, langNames } from '@uiw/codemirror-extensions-langs';
+import copy from '../Images/copy.svg'
 
 import send from '../Images/send.svg'
 import Indmsg from './Indmsg';
@@ -50,6 +51,7 @@ export default function Ide() {
     const [roomchat, setroomchat] = useState([]);
     const [userjoin, setuserjoin] = useState([]);
     const [iscreater, setiscreater] = useState(false);
+    const [idforcopy ,setidforcopy] = useState('');
 
     const [content, setContent] = useState('');
     const [langname, setLangname] = useState('cpp');
@@ -57,6 +59,14 @@ export default function Ide() {
     function userjoinfunc(name) {
         setuserjoin((userjoin) => [...userjoin, name]);
     } 
+
+    const messageRef = useRef(null);
+
+    useEffect(() => {
+        if (messageRef.current) {
+            messageRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        }
+    }, [roomchat]);
 
     useEffect(()=>{
         const socket = io(process.env.REACT_APP_SOCKETPORT);
@@ -192,6 +202,14 @@ export default function Ide() {
         return () => clearInterval(interval);
     }, [content, id]);
 
+    function copyroomid(){
+        navigator.clipboard.writeText(id);
+        setidforcopy("rotate");
+        setTimeout(function() {
+            setidforcopy("");
+        }, 1000); 
+    }
+
     if(redirect){
         return <Navigate to='/'></Navigate>;
     }
@@ -234,6 +252,7 @@ export default function Ide() {
                         <div className='roomidcopy'>
                             <h5 className='roomidtext' style={{fontSize: "16px"}}>Room:</h5>
                             <p className='roomidtext' style={{fontSize: "14px"}}>{id}</p>
+                            <img src={copy} alt='copy logo' className='copylogo' onClick={copyroomid} id={idforcopy}></img>
                         </div>
                     </div>
                     <div id='codeide'>
@@ -252,6 +271,7 @@ export default function Ide() {
                     <div className='chat'>
                         <div className='message'>
                             {roomchat.map( (content, index) => (<Indmsg key={index} msg={content.msg} name={content.name}></Indmsg>))}
+                            <div ref={messageRef} />
                         </div>
                         <div className='messageinput'>
                             <input type='text' placeholder='Type a message' onKeyDown={handleKeyPress} value={msg} onChange={e => setmsg(e.target.value)} className='messagebar'></input>
