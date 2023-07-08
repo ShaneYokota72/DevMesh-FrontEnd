@@ -50,7 +50,9 @@ export default function Login() {
                     <button onClick={login}>Login</button>
                     <h5>Dont have an account? <Link to='/signup'>Sign Up</Link></h5>
                 </div>
-                <img src={LSimg} alt='login/signup img'></img>
+                <div className='LSimgparent'>
+                    <img src={LSimg} alt='login/signup img'></img>
+                </div>
             </div>
         </div>
     )

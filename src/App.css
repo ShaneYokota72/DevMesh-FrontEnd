@@ -581,10 +581,17 @@
 .LSleft a:hover{
   background-color: var(--primary-background);
 }
+.LSimgparent{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .LSform img{
-  width: auto;
-  height: 100%;
   display: block;
+  height: 50vw;
+  width: 50vw;
+  max-height: 100%;
+  max-width: 45vw;
 }
 
 /* Create/Join form css */

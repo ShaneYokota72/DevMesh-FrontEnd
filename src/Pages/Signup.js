@@ -39,7 +39,9 @@ export default function Signup() {
                   <button onClick={signup}>Sign Up</button>
                   <h5>Already have an account? <Link to='/login'>Log In</Link></h5>
               </div>
-              <img src={LSimg} alt='login/signup img'></img>
+              <div className='LSimgparent'>
+                <img src={LSimg} alt='login/signup img'></img>
+              </div>
           </div>
       </div>
   )
