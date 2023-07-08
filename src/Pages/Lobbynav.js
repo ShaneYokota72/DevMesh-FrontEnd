@@ -101,7 +101,6 @@ export default function Lobbynav() {
         }
         setjoinform(!joinform);
     }
-
     function handleRedirect(){
         setredirect(true);
     }
