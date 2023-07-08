@@ -156,7 +156,7 @@ export default function Lobbynav() {
                         </svg>
                         <h1 style={{margin: "0"}}>Join Room</h1>
                         <div className='roomtype'>
-                            <span>devmesh.vercel/app/ </span>
+                            <span>devmesh.vercel.app/ </span>
                             <input className='forminputtext' style={{width: "15vw", margin: "0"}} type='text' value={roomid} onChange={e => setroomid(e.target.value)} placeholder='roomid'></input>
                         </div>
                         <button onClick={handlejoinroom} style={{marginTop: "1vh"}}>Join Room</button>
