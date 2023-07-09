@@ -31,7 +31,7 @@ export default function Navbar() {
                     onChange={handlethemechange}
                     icons={{ checked: "🌙", unchecked: "🔆" }}
                     aria-label="Dark mode toggle" />
-                <Link to='/lobby' className='redirectlink' style={{fontSize:'20px'}}>Get Started</Link>
+                <Link to='/lobby' className='redirectlink'>Get Started</Link>
             </div>
         </nav>
     )

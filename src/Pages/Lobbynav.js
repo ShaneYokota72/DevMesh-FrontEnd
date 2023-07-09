@@ -118,9 +118,9 @@ export default function Lobbynav() {
                         onChange={handlethemechange}
                         icons={{ checked: "🌙", unchecked: "🔆" }}
                         aria-label="Dark mode toggle" />
-                    <h5 className='redirectlink' style={{fontSize:'20px'}} onClick={handlecreateform}>Create</h5>
-                    <h5 className='redirectlink' style={{fontSize:'20px'}} onClick={handlejoinform}>Join</h5>
-                    <h5 className='redirectlink' style={{fontSize:'20px'}} onClick={logout}>Log Out</h5>
+                    <h5 className='redirectlink' onClick={handlecreateform}>Create</h5>
+                    <h5 className='redirectlink' onClick={handlejoinform}>Join</h5>
+                    <h5 className='redirectlink' onClick={logout}>Log Out</h5>
                 </div>
             </nav>
             {createform? 

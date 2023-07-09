@@ -138,7 +138,7 @@
   text-decoration: none;
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
-  font-size: 25px;
+  font-size: 20px;
   margin: 0;
   color: var(--primary-text);
 }
@@ -365,6 +365,19 @@
 }
 .contactinline a:hover{
   background: var(--primary-button);
+}
+.githublogo{
+  width: 2vw;
+  height: auto;
+  position: relative;
+  filter: invert(1);
+  left: calc(100% - 2vw);
+}
+.githublogo:hover{
+  cursor: pointer;
+  /* transform: scale(1.05);
+  transition: transform 0.3s ease; */
+  filter: invert(0.5);
 }
 
 /* Lobby css */
@@ -1000,3 +1013,100 @@
   box-shadow: 0px 0px 5px 5px #0099E0;
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+/* phones */
+@media only screen and (max-width: 600px) {
+  .redirectlink{
+    font-size: 10px;
+  }
+  .about{
+    height: auto;
+  }
+  .about h2, .faq h2, .contact h2{
+    font-size: 8.5vw;
+  }
+  .about p{
+    font-size: 3.5vw;
+    width: 100%;
+  }
+  .card {
+    width: 60vw;
+  }
+  .card img{
+    margin-top: 3vw;
+  }
+  .card h3{
+    font-size: 3.8vw;
+  }
+  .card p{
+    font-size: 3vw;
+  }
+  .aboutuscards {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    gap: 10vh;
+  }
+  .individualfaq {
+    width: 80vw;
+  }
+  .individualfaq p {
+    font-size: 3.5vw;
+  }
+  .faq_question h5{
+    font-size: 4vw;
+  }
+  .contact h5, .contactinline a{
+    font-size: 3vw;
+  }
+  .githublogo {
+    width: 6vw;
+    left: calc(100% - 6vw);
+  }
+}
+/* tablets */
+@media only screen and (min-width: 601px) and (max-width: 960px) {
+  .redirectlink{
+    font-size: 15px;
+  }
+  .about{
+    height: auto;
+  }
+  .about h2, .faq h2, .contact h2{
+    font-size: 6.5vw;
+  }
+  .about p{
+    font-size: 2.5vw;
+    width: 100%;
+  }
+  .card {
+    width: 40vw;
+  }
+  .card img{
+    margin-top: 3vw;
+  }
+  .card h3, .individualfaq p{
+    font-size: 2.5vw;
+  }
+  .card p, .contact h5, .contactinline a{
+    font-size: 2vw;
+  }
+  .aboutuscards {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    gap: 10vh;
+  }
+  .individualfaq {
+    width: 80vw;
+  }
+  .faq_question h5{
+    font-size: 3vw;
+  }
+  .githublogo {
+    width: 4vw;
+    left: calc(100% - 4vw);
+  }
+}

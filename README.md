@@ -1,7 +1,7 @@
 # DevMesh - Collaborative cloud platform for all developers
 ## Access the App Here: [DevMesh](https://devmesh.vercel.app/)
 Front-End Code: this repo<br>
-Back-End Code: [Back-End Code Repo](https://github.com/ShaneYokota72/DevMesh-backend)
+Back-End Code: [Back-End Code Repo](https://github.com/ShaneYokota72/DevMesh-BackEnd)
 
 # Tech Stack 🗃
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
