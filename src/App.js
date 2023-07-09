@@ -17,6 +17,9 @@ import Ide from './Pages/Ide';
 import Lobbynav from './Pages/Lobbynav';
 import Lobbybody from './Pages/Lobbybody';
 
+/* For vercel analytics */
+import { Analytics } from '@vercel/analytics/react'; 
+
 function Landing(){
   return(
     <div>
@@ -67,11 +70,11 @@ function App() {
     <div className={`app ${theme}`}>
       <UserContext.Provider value={{username, setusername, roomcreater, setroomcreater, theme, setTheme, userinformation, setuserinformation}}>
         <Routes>
-          <Route path='/' element={<Landing></Landing>}></Route>
-          <Route path='/lobby' element={<Lobbypage></Lobbypage>}></Route>
-          <Route path='/login' element={<Loginpage></Loginpage>}></Route>
-          <Route path='/signup' element={<Signuppage></Signuppage>}></Route>
-          <Route path='/room/:id' element={<Rooompage></Rooompage>}></Route>
+          <Route path='/' element={<Landing><Analytics /></Landing>}></Route>
+          <Route path='/lobby' element={<Lobbypage><Analytics /></Lobbypage>}></Route>
+          <Route path='/login' element={<Loginpage><Analytics /></Loginpage>}></Route>
+          <Route path='/signup' element={<Signuppage><Analytics /></Signuppage>}></Route>
+          <Route path='/room/:id' element={<Rooompage><Analytics /></Rooompage>}></Route>
         </Routes>
       </UserContext.Provider>
     </div>
