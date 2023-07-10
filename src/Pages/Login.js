@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import LSimg from '../Images/LSimg.png'
 import { Link, Navigate } from 'react-router-dom';
 import { UserContext } from '../App';
@@ -7,7 +7,31 @@ export default function Login() {
     const [username, setusername] = useState('');
     const [password, setpassword] = useState('');
     const [redirect, setredirect] = useState(false);
-    const {setuserinformation} = useContext(UserContext);
+    const {userinformation, setuserinformation} = useContext(UserContext);
+
+    useEffect(() => {
+        //check authentication status
+        async function checkstatus(){
+            const response = await fetch(`${process.env.REACT_APP_APIPORT}/auth/status`, {
+                method: 'GET',
+                credentials: 'include',
+                headers: {'Content-type':'application/json'},
+            })
+            const data = await response.json();
+            if(response.ok){
+                console.log("data", data)
+                setuserinformation(data);
+            }
+            return;
+        }
+        checkstatus();
+    }, [setuserinformation])
+
+    useEffect(()=>{
+        if(userinformation.username){
+            setredirect(true);
+        }
+    }, [userinformation])
 
     async function login(){
         if(username === '' || password === ''){
@@ -17,6 +41,7 @@ export default function Login() {
         const response = await fetch(`${process.env.REACT_APP_APIPORT}/login`, {
             method: 'POST',
             body: JSON.stringify({username, password}),
+            credentials: 'include',
             headers: {'Content-type':'application/json'},
         })
         const data = await response.json();

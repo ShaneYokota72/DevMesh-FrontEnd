@@ -62,13 +62,11 @@ function Rooompage(){
 export const UserContext = React.createContext({});
 
 function App() {
-  const [username, setusername] = React.useState('');
-  const [roomcreater, setroomcreater] = React.useState('');
   const [theme, setTheme] = React.useState('light');
   const [userinformation, setuserinformation] = React.useState({});
   return (
     <div className={`app ${theme}`}>
-      <UserContext.Provider value={{username, setusername, roomcreater, setroomcreater, theme, setTheme, userinformation, setuserinformation}}>
+      <UserContext.Provider value={{ theme, setTheme, userinformation, setuserinformation}}>
         <Routes>
           <Route path='/' element={<Landing><Analytics /></Landing>}></Route>
           <Route path='/lobby' element={<Lobbypage><Analytics /></Lobbypage>}></Route>

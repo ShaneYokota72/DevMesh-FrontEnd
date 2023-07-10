@@ -24,6 +24,7 @@ export default function Lobbynav() {
         const response = await fetch(`${process.env.REACT_APP_APIPORT}/logout`, {
             method: 'POST',
             headers: {'Content-type':'application/json'},
+            credentials: 'include',
         })
         if(response.ok){
             setuserinformation({});
