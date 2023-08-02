@@ -157,7 +157,21 @@
 .redirectlink:hover::after {
   transform: scaleX(1);
 }
-
+/* backend down alert */
+.backenddownmsg{
+  gap: 1vw;
+  position: absolute;
+  right: 2.5vw;
+  top: 10vh;
+  transition: all 0.5s ease;
+  background-color: #c6cccc;
+  border-radius:0.5vh;
+}
+.backenddownicon{
+  border-radius: 0.5vh;
+  background: #ff4b4b;
+  padding: 0 2.2vw;
+}
 /* navbar css */
 .navbar{
   display: flex;
