@@ -30,7 +30,7 @@ function Landing(){
   //   setshowalert(false);
   // }
   return(
-    <div>
+    <div className='landingall'>
       {/* <div className="backenddownmsg" style={{display:  showalert ? 'flex' : 'none'}}>
         <img alt="alert icon" className='backenddownicon' src={alertimg}></img>
         <p style={{maxWidth: "20vw"}}>Backend is service is down due to AWS cost. Contact shaneyok@usc.edu to try out the website. Thank you for understanding.</p>

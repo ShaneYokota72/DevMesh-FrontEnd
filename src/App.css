@@ -41,6 +41,9 @@
 *{
   scroll-behavior: smooth;
 }
+*::-webkit-scrollbar{
+  display: none;
+}
 
 /* Variables */
 .app.light{
@@ -89,7 +92,7 @@
 /* Landing Page css */
 .landing{
   height: 70vh;
-  width: 80vw;
+  /* width: 80vw; */
   padding: 10vh 10vw;
   background-color: var(--primary-background);
   display: flex;
@@ -172,6 +175,9 @@
   background: #ff4b4b;
   padding: 0 2.2vw;
 }
+.landingall::-webkit-scrollbar {
+  display: none;
+}
 /* navbar css */
 .navbar{
   display: flex;
@@ -209,7 +215,7 @@
 .about{
   padding: 5vh 10vw;
   height: 80vh;
-  width: 80vw;
+  /* width: 80vw; */
   background-color: var(--secondary-background);
 }
 .about h2{
@@ -288,7 +294,7 @@
 /* faq css */
 .faq{
   padding: 5vh 10vw 10vh 10vw;
-  width: 80vw;
+  /* width: 80vw; */
   background-color: var(--primary-background);
 }
 
@@ -782,6 +788,9 @@
   height: calc(85vh - 1.5vw);
   width: calc(35vw - 2px);
   overflow: scroll;
+}
+.message::-webkit-scrollbar {
+  display: none;
 }
 .messageinput{
   display: flex;
