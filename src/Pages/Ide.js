@@ -274,7 +274,8 @@ export default function Ide() {
                             <div ref={messageRef} />
                         </div>
                         <div className='messageinput'>
-                            <input type='text' placeholder='Type a message' onKeyDown={handleKeyPress} value={msg} onChange={e => setmsg(e.target.value)} className='messagebar'></input>
+                            <input type='text' placeholder='Type a message' onKeyDown={handleKeyPress} value={msg} onChange={e => setmsg(e.target.value)} className='messagebar'
+                            style={{width: "100%"}}></input>
                             <img src={send} alt='send' ref={buttonRef} className='sendbutton' onClick={sendmsg}></img>
                         </div>
                     </div>
