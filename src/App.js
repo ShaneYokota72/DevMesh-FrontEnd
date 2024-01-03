@@ -1,6 +1,6 @@
 /* basic imports */
 import './App.css';
-import React,{ useState } from 'react';
+import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 /* For Landing page */

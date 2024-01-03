@@ -734,6 +734,10 @@
   align-items: center;
   height: 5vh;
 }
+.idenavbarright{
+  display: flex;
+  gap: 8px;
+}
 .roomidcopy{
   border-radius: 10px;
   display: flex;
@@ -1132,4 +1136,60 @@
     width: 4vw;
     left: calc(100% - 4vw);
   }
+}
+
+.popup{
+  position: absolute;
+  z-index: 1000;
+  top: 42.5vh;
+  right: 37.5vw;
+  width: 25vw;
+  height: 15vh;
+  border-radius: 8px;
+  padding: 10px;
+  background-color: var(--primary-background);
+}
+.popupheader{
+  color: var(--primary-text);
+}
+.popupinner{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  height: 100%;
+}
+.popupgithubinfo{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1vw;
+}
+.popupspan{
+  color: var(--primary-text);
+  font-size: 16px;
+  font-weight: 600;
+  width: fit-content;
+}
+.popupinput{
+  margin: 2.5vh 0;
+  width: 15vw;
+}
+
+.popupbutton{
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  background-color: var(--primary-text);
+  color: var(--primary-background);
+  border: 0;
+  border-radius: 5px;
+  transform: scale(1);
+  transition: transform 0.3s ease;
+}
+.popupbutton:hover{
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
 }

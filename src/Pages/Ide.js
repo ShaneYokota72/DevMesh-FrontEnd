@@ -11,6 +11,7 @@ import CodeMirror from '@uiw/react-codemirror';
 import { vscodeDark } from '@uiw/codemirror-theme-vscode';
 import { loadLanguage, langNames } from '@uiw/codemirror-extensions-langs';
 import copy from '../Images/copy.svg'
+import github from '../Images/github.svg'
 
 import send from '../Images/send.svg'
 import Indmsg from './Indmsg';
@@ -52,6 +53,7 @@ export default function Ide() {
     const [userjoin, setuserjoin] = useState([]);
     const [iscreater, setiscreater] = useState(false);
     const [idforcopy ,setidforcopy] = useState('');
+    const [showpopup, setshowpopup] = useState(false);
 
     const [content, setContent] = useState('');
     const [langname, setLangname] = useState('cpp');
@@ -210,6 +212,24 @@ export default function Ide() {
         }, 1000); 
     }
 
+    async function handleclone(){
+        const url = document.querySelector('.popupinput').value;
+        if(url === ''){
+            alert('Please enter a valid URL');
+            return;
+        }
+        const responce = await fetch(`${process.env.REACT_APP_APIPORT}/gitclone`, {
+            method: 'POST',
+            body: JSON.stringify({roomid: id, repoPath: url}),
+            headers: {'Content-type':'application/json'},
+        })
+        if(responce.ok){
+            setshowpopup(false);
+            retrieve(id);
+        }
+        return responce.status;
+    }
+
     if(redirect){
         return <Navigate to='/'></Navigate>;
     }
@@ -249,10 +269,13 @@ export default function Ide() {
                                 <option key={langname} value={langname}>{langname}</option>
                             ))}
                         </select>
-                        <div className='roomidcopy'>
-                            <h5 className='roomidtext' style={{fontSize: "16px"}}>Room:</h5>
-                            <p className='roomidtext' style={{fontSize: "14px"}}>{id}</p>
-                            <img src={copy} alt='copy logo' className='copylogo' onClick={copyroomid} id={idforcopy}></img>
+                        <div className='idenavbarright'>
+                            <img src={github} alt='github logo' className='' onClick={() => setshowpopup(!showpopup)}></img>
+                            <div className='roomidcopy'>
+                                <h5 className='roomidtext' style={{fontSize: "16px"}}>Room:</h5>
+                                <p className='roomidtext' style={{fontSize: "14px"}}>{id}</p>
+                                <img src={copy} alt='copy logo' className='copylogo' onClick={copyroomid} id={idforcopy}></img>
+                            </div>
                         </div>
                     </div>
                     <div id='codeide'>
@@ -281,6 +304,24 @@ export default function Ide() {
                     </div>
                 </div>
             </div>
+            {
+                showpopup && (
+                    <div className='popup'>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="popupX" style={{top:'1vw', right:'1vw'}} onClick={() => setshowpopup(!showpopup)} viewBox="0 0 16 16">
+                            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                        <div className='popupinner'>
+                            <h5 className='popupheader'>Github Repo to Clone</h5>
+                            <div className='popupgithubinfo'>
+                                <span className='popupspan'>Repo URL:</span>
+                                <input className='popupinput'></input>
+                                <button className='popupbutton' onClick={handleclone}>Clone</button>
+                            </div>
+                        </div>
+                    </div>
+                )       
+            }
         </>
     )
 }
