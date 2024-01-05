@@ -55,8 +55,16 @@ export default function Ide() {
     const [idforcopy ,setidforcopy] = useState('');
     const [showpopup, setshowpopup] = useState(false);
 
-    const [content, setContent] = useState('');
+    const [content, setContent] = useState({});
+    const [currfile, setCurrfile] = useState('filename');
     const [langname, setLangname] = useState('cpp');
+    const [newfilecreate, setNewfilecreate] = useState(false);
+
+    useEffect(() => {
+        console.log("content", content)
+        console.log("currfile", currfile)
+        console.log(Object.keys(content))
+    },[content])
     
     function userjoinfunc(name) {
         setuserjoin((userjoin) => [...userjoin, name]);
@@ -77,8 +85,11 @@ export default function Ide() {
         socket.emit("join-room", id, userinformation.displayname);
 
         // receive change for IDE
-        socket.on("receive-changes", delta => {
-            setContent(delta);
+        socket.on("receive-changes", (delta, filename) => {
+            setContent(prevContent => ({ 
+                ...prevContent, 
+                [filename] : delta 
+            }));
         })
         // connection notification
         socket.on('user-connected', (name)=>{
@@ -100,8 +111,8 @@ export default function Ide() {
     }, [id, userinformation.displayname])
 
     const onChange = React.useCallback((value, viewUpdate) => {
-        setContent(value);
-        socketRef.current.emit("send-changes", value, id);
+        setContent(prevContent => ({ ...prevContent, filename : value }));
+        socketRef.current.emit("send-changes", value, id, currfile);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -113,10 +124,16 @@ export default function Ide() {
         }
         if(response.ok){
             response.json().then(data => {
-                if(data.content === ''){
-                    setContent(codemap.get(langname));
+                if(data.content === null || data.content === undefined){
+                    const filename = `devmesh.${langname}`
+                    setContent(prevContent => ({ 
+                        ...prevContent, 
+                        [filename] : codemap.get(langname) 
+                    }));
+                    setCurrfile(filename)
                 } else {
                     setContent(data.content);
+                    setCurrfile(Object.keys(content)[0])
                 }
 
                 if(data.creater === userinformation._id){
@@ -185,7 +202,7 @@ export default function Ide() {
     async function save(rid, cnt){
         const responce = await fetch(`${process.env.REACT_APP_APIPORT}/save/`+rid, {
             method: 'PUT',
-            body: JSON.stringify({roomid: rid, content:cnt}),
+            body: JSON.stringify({roomid: rid, content:cnt}), // change
             headers: {'Content-type':'application/json'},
         })
         return responce.status;
@@ -264,13 +281,28 @@ export default function Ide() {
             <div className='ide'>
                 <div className='ideleft'>
                     <div className='ideinfo'>
-                        <select name="programminglang" id="programminglang" value={langname} onChange={(e) => setLangname(e.target.value)}>
+                        {/* <select name="programminglang" id="programminglang" value={langname} onChange={(e) => setLangname(e.target.value)}>
                             {langNames.map((langname) => (
                                 <option key={langname} value={langname}>{langname}</option>
                             ))}
-                        </select>
+                        </select> */}
+                        <div className='tabscollection'>
+                            {
+                                Object.keys(content).map((file, index) => (
+                                    <h4 className='tabs' key={index}>{file}</h4>
+                                ))
+                            }
+                            {
+                                newfilecreate && 
+                                <div>test</div>
+                            }
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg copylogo" style={{marginLeft: "10px"}} viewBox="0 0 16 16" onClick={() => setNewfilecreate(!newfilecreate)}>
+                                <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                            </svg>
+                        </div>
+                        {/* add a plus icon to add a file */}
                         <div className='idenavbarright'>
-                            <img src={github} alt='github logo' className='' onClick={() => setshowpopup(!showpopup)}></img>
+                            <img src={github} alt='github logo' className='copylogo' onClick={() => setshowpopup(!showpopup)}></img>
                             <div className='roomidcopy'>
                                 <h5 className='roomidtext' style={{fontSize: "16px"}}>Room:</h5>
                                 <p className='roomidtext' style={{fontSize: "14px"}}>{id}</p>
@@ -280,7 +312,7 @@ export default function Ide() {
                     </div>
                     <div id='codeide'>
                         <CodeMirror
-                            value= {content}
+                            value= {content[currfile]}
                             height="85vh"
                             width='65vw'
                             theme={vscodeDark}
