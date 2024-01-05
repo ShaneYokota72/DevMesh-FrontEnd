@@ -1193,3 +1193,22 @@
   transform: scale(1.05);
   transition: transform 0.3s ease;
 }
+
+.tabscollection{
+  display: flex;
+  align-items: center;
+}
+
+.tabs{
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  color: var(--primary-text);
+  height: 5vh;
+  background-color: var(--tagbg);
+  border-radius: 10px;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10px;
+}
