@@ -329,7 +329,7 @@ export default function Ide() {
                             </div>
                         </div>
                         <div className='idenavbarright'>
-                            <img src={download} alt='download logo' className='copylogo' onClick={downloadAllContent}></img>
+                            <img src={download} alt='download logo' className='copylogo' style={{marginRight: "8px"}} onClick={downloadAllContent}></img>
                             <img src={github} alt='github logo' className='copylogo' onClick={() => setshowpopup(!showpopup)}></img>
                             <div className='roomidcopy'>
                                 <h5 className='roomidtext' style={{fontSize: "16px"}}>Room:</h5>
