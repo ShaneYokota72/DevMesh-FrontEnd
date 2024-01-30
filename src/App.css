@@ -1144,7 +1144,7 @@
   top: 42.5vh;
   right: 37.5vw;
   width: 25vw;
-  height: 15vh;
+  height: auto;
   border-radius: 8px;
   padding: 10px;
   background-color: var(--primary-background);
@@ -1192,4 +1192,36 @@
 .popupbutton:hover{
   transform: scale(1.05);
   transition: transform 0.3s ease;
+}
+
+.tabscollection{
+  max-width: 55%;
+  overflow: scroll;
+  display: flex;
+  align-items: center;
+}
+
+.tabs{
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  color: var(--primary-text);
+  height: 5vh;
+  background-color: var(--tagbg);
+  border-radius: 10px;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10px;
+
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;
+}
+
+.tabs:hover{
+  cursor: pointer;
 }
