@@ -6,12 +6,14 @@ import {UserContext} from '../App';
 import { Navigate } from 'react-router-dom'
 import { io } from 'socket.io-client';
 import Notification from './Notification.js';
+import {useDownload} from '../hooks/useDownload.js';
 
 import CodeMirror from '@uiw/react-codemirror';
 import { vscodeDark } from '@uiw/codemirror-theme-vscode';
 import { loadLanguage, langNames } from '@uiw/codemirror-extensions-langs';
 import copy from '../Images/copy.svg'
 import github from '../Images/github.svg'
+import download from '../Images/download.svg'
 
 import send from '../Images/send.svg'
 import Indmsg from './Indmsg';
@@ -54,18 +56,14 @@ export default function Ide() {
     const [iscreater, setiscreater] = useState(false);
     const [idforcopy ,setidforcopy] = useState('');
     const [showpopup, setshowpopup] = useState(false);
+    const [showpopup_addfile, setshowpopup_addfile] = useState(false);
 
     const [content, setContent] = useState({});
     const [currfile, setCurrfile] = useState('filename');
     const [langname, setLangname] = useState('cpp');
-    const [newfilecreate, setNewfilecreate] = useState(false);
 
-    useEffect(() => {
-        console.log("content", content)
-        console.log("currfile", currfile)
-        console.log(Object.keys(content))
-    },[content])
-    
+    const downloadAllContent = useDownload(content);
+
     function userjoinfunc(name) {
         setuserjoin((userjoin) => [...userjoin, name]);
     } 
@@ -91,9 +89,13 @@ export default function Ide() {
                 [filename] : delta 
             }));
         })
+        // receive changes after clone
+        socket.on("receive-clone", (delta) => {
+            setContent(delta);
+            setCurrfile(Object.keys(delta)[0]);
+        })
         // connection notification
         socket.on('user-connected', (name)=>{
-            // console.log(name, 'connected');
             userjoinfunc(name);
         })
         // disconnection notification
@@ -110,11 +112,12 @@ export default function Ide() {
         }
     }, [id, userinformation.displayname])
 
-    const onChange = React.useCallback((value, viewUpdate) => {
-        setContent(prevContent => ({ ...prevContent, filename : value }));
-        socketRef.current.emit("send-changes", value, id, currfile);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    function onChange(filename){
+        return function(value, viewUpdate){
+            setContent(prevContent => ({ ...prevContent, [filename] : value }));
+            socketRef.current.emit("send-changes", value, id, filename);
+        }
+    }
 
     async function retrieve(rid){
         const response = await fetch(`${process.env.REACT_APP_APIPORT}/room/`+rid);
@@ -132,8 +135,11 @@ export default function Ide() {
                     }));
                     setCurrfile(filename)
                 } else {
+                    const keys = Object.keys(data.content);
+                    if(keys.length > 0){
+                        setCurrfile(keys[0]);
+                    }
                     setContent(data.content);
-                    setCurrfile(Object.keys(content)[0])
                 }
 
                 if(data.creater === userinformation._id){
@@ -240,12 +246,41 @@ export default function Ide() {
             body: JSON.stringify({roomid: id, repoPath: url}),
             headers: {'Content-type':'application/json'},
         })
+        const data = await responce.json();
         if(responce.ok){
             setshowpopup(false);
-            retrieve(id);
+            setContent(data.content);
+            setCurrfile(Object.keys(data.content)[0]);
+            socketRef.current.emit("just-cloned", data.content, id);
         }
         return responce.status;
     }
+
+    function switchtab(file){
+        return function(){
+            setCurrfile(file);
+        }
+    }
+
+    function addfile(){
+        const filename = document.querySelector('.popupinput').value;
+        if(filename === ''){
+            alert('Please enter a valid filename');
+            return;
+        }
+        // if file already exist, alert and do not add
+        if(Object.keys(content).includes(filename)){
+            alert('File already exist');
+            return;
+        }
+        setContent(prevContent => ({ 
+            ...prevContent, 
+            [filename] : codemap.get(langname) 
+        }));
+        setCurrfile(filename);
+        setshowpopup_addfile(false);
+    }
+
 
     if(redirect){
         return <Navigate to='/'></Navigate>;
@@ -281,27 +316,20 @@ export default function Ide() {
             <div className='ide'>
                 <div className='ideleft'>
                     <div className='ideinfo'>
-                        {/* <select name="programminglang" id="programminglang" value={langname} onChange={(e) => setLangname(e.target.value)}>
-                            {langNames.map((langname) => (
-                                <option key={langname} value={langname}>{langname}</option>
-                            ))}
-                        </select> */}
                         <div className='tabscollection'>
                             {
                                 Object.keys(content).map((file, index) => (
-                                    <h4 className='tabs' key={index}>{file}</h4>
+                                    <p onClick={switchtab(file)} className='tabs' style={{ borderBottomLeftRadius: (currfile === file) ? '0' : '10px', borderBottomRightRadius: (currfile === file) ? '0' : '10px' }} key={index}>{file}</p>
                                 ))
                             }
-                            {
-                                newfilecreate && 
-                                <div>test</div>
-                            }
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg copylogo" style={{marginLeft: "10px"}} viewBox="0 0 16 16" onClick={() => setNewfilecreate(!newfilecreate)}>
-                                <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
-                            </svg>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg copylogo" style={{marginLeft: "10px"}} viewBox="0 0 16 16" onClick={() => setshowpopup_addfile(!showpopup_addfile)}>
+                                    <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                                </svg>
+                            </div>
                         </div>
-                        {/* add a plus icon to add a file */}
                         <div className='idenavbarright'>
+                            <img src={download} alt='download logo' className='copylogo' onClick={downloadAllContent}></img>
                             <img src={github} alt='github logo' className='copylogo' onClick={() => setshowpopup(!showpopup)}></img>
                             <div className='roomidcopy'>
                                 <h5 className='roomidtext' style={{fontSize: "16px"}}>Room:</h5>
@@ -317,7 +345,7 @@ export default function Ide() {
                             width='65vw'
                             theme={vscodeDark}
                             extensions={[loadLanguage(langname)]}
-                            onChange={onChange}
+                            onChange={onChange(currfile)}
                             id='codeide'
                         />
                     </div>
@@ -349,6 +377,23 @@ export default function Ide() {
                                 <span className='popupspan'>Repo URL:</span>
                                 <input className='popupinput'></input>
                                 <button className='popupbutton' onClick={handleclone}>Clone</button>
+                            </div>
+                        </div>
+                    </div>
+                )       
+            }
+            {
+                showpopup_addfile && (
+                    <div className='popup'>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="popupX" style={{top:'1vw', right:'1vw'}} onClick={() => setshowpopup_addfile(!showpopup_addfile)} viewBox="0 0 16 16">
+                            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                        <div className='popupinner'>
+                            <h5 className='popupheader'>New file name</h5>
+                            <div className='popupgithubinfo'>
+                                <input className='popupinput'></input>
+                                <button className='popupbutton' onClick={addfile}>Add</button>
                             </div>
                         </div>
                     </div>
