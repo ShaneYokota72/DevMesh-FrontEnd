@@ -7,6 +7,7 @@ import Toggle from 'react-toggle'
 export default function Lobbynav() {
     const [redirect, setredirect] = useState(false);
     const {theme, setTheme, userinformation, setuserinformation} = useContext(UserContext);
+    console.log('userinformation', userinformation);
     const [createform, setcreateform] = useState(false);
     const [joinform, setjoinform] = useState(false);
     const [newroomid, setnewroomid] = useState(''); 
@@ -41,7 +42,7 @@ export default function Lobbynav() {
             method: 'POST',
             body: JSON.stringify({
                 creater: userinformation._id,
-                creatername: userinformation.displayname,
+                creatername: userinformation.displayName,
                 ispublic, 
                 tags, 
                 desc
@@ -114,7 +115,7 @@ export default function Lobbynav() {
             <nav className='navbar' id='lobbynav'>
                 <img src={devlogo} alt='DevMesh Logo' onClick={handleRedirect}></img>
                 <div className='lobbyacc'>
-                    <h5 className='welcomemsg'>{`Welcome ${userinformation.displayname}`}</h5>
+                    <h5 className='welcomemsg'>{`Welcome ${userinformation.displayName}`}</h5>
                     <Toggle
                         onChange={handlethemechange}
                         icons={{ checked: "🌙", unchecked: "🔆" }}
