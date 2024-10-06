@@ -29,6 +29,7 @@ export default function Land() {
             <div className='redirect'>
                 <Link to='/' className='redirectlink' onClick={scrolltoabout}>Learn More</Link>
                 <Link to='/lobby'className='redirectlink'>Try It Out</Link>
+                <Link to='https://youtu.be/-ppDyhM1jH8'className='redirectlink'>See Demo</Link>
             </div>
         </div>
     )

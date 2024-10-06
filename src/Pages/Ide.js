@@ -79,8 +79,8 @@ export default function Ide() {
     useEffect(()=>{
         const socket = io(process.env.REACT_APP_SOCKETPORT);
         socketRef.current = socket;
-
-        socket.emit("join-room", id, userinformation.displayname);
+        console.log('socket joined', process.env.REACT_APP_SOCKETPORT)
+        socket.emit("join-room", id, userinformation.displayName);
 
         // receive change for IDE
         socket.on("receive-changes", (delta, filename) => {
@@ -110,7 +110,7 @@ export default function Ide() {
         return () => {
             socket.disconnect();
         }
-    }, [id, userinformation.displayname])
+    }, [id, userinformation.displayName])
 
     function onChange(filename){
         return function(value, viewUpdate){
@@ -191,7 +191,7 @@ export default function Ide() {
             return;
         }
         const text = {
-            name: userinformation.displayname,
+            name: userinformation.displayName,
             msg: msg,
         }
         socketRef.current.emit('send-message', text, id);
@@ -304,7 +304,7 @@ export default function Ide() {
             <nav className='navbar' id='idenav'>
                 <img src={devlogo} alt='DevMesh Logo' onClick={handleRedirect}></img>
                 <div className='lobbyacc'>
-                    <h5 className='welcomemsg'>{`Welcome ${userinformation.displayname}`}</h5>
+                    <h5 className='welcomemsg'>{`Welcome ${userinformation.displayName}`}</h5>
                     <Toggle
                         onChange={handlethemechange}
                         icons={{ checked: "🌙", unchecked: "🔆" }}

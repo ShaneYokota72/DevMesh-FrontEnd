@@ -7,7 +7,7 @@ export default function Indmsg(props) {
     const [idmsgcontent, setidmsgcontent] = useState('');
 
     useEffect(()=>{
-        if(userinformation.displayname === props.name){
+        if(userinformation.displayName === props.name){
             setidval('mymsg');
             setidmsgcontent('mymsgcontent');
         }
